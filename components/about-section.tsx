@@ -1,6 +1,7 @@
 "use client";
 
 import { Timeline } from "@/components/ui/timeline";
+import Image from "next/image";
 
 const timelineData = [
     {
@@ -29,8 +30,14 @@ const timelineData = [
     },
     {
         year: "2024",
+        title: "Reconocimiento Fondo Emprender",
+        description: "Fuimos seleccionados como empresa beneficiaria del Fondo Emprender SENA, validando nuestro modelo de negocio sostenible y compromiso con la economía circular.",
+        icon: "🏅"
+    },
+    {
+        year: "2025",
         title: "Líderes en Sostenibilidad",
-        description: "Más de 5,000 dispositivos restaurados, evitando toneladas de residuos electrónicos. Reconocidos por nuestro compromiso ambiental.",
+        description: "Más de 5,000 dispositivos restaurados, evitando toneladas de residuos electrónicos. Reconocidos como referentes en tecnología circular en Colombia.",
         icon: "🌍"
     }
 ];
@@ -125,7 +132,7 @@ export function AboutSection() {
                 </div>
 
                 {/* Impact Stats */}
-                <div className="bg-gradient-to-r from-brand-blue to-brand-green p-1 rounded-3xl">
+                <div className="bg-gradient-to-r from-brand-blue to-brand-green p-1 rounded-3xl mb-16">
                     <div className="bg-brand-black p-8 md:p-12 rounded-3xl">
                         <h3 className="text-3xl font-bold text-center text-white mb-8">
                             Nuestro Impacto Ambiental
@@ -142,6 +149,54 @@ export function AboutSection() {
                             <div className="text-center">
                                 <div className="text-5xl font-bold text-brand-green mb-2">85%</div>
                                 <p className="text-brand-cream/80">Tasa de éxito en recuperación</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Fondo Emprender */}
+                <div className="mt-16">
+                    <div className="bg-white rounded-3xl p-8 md:p-12 shadow-xl border-2 border-brand-green/20">
+                        <div className="flex flex-col md:flex-row items-center gap-8">
+                            {/* Logo */}
+                            <div className="flex-shrink-0">
+                                <Image
+                                    src="/images/fondo-emprender.png"
+                                    alt="SENA Fondo Emprender"
+                                    width={400}
+                                    height={120}
+                                    className="w-full max-w-md"
+                                />
+                            </div>
+
+                            {/* Contenido */}
+                            <div className="flex-1">
+                                <h3 className="text-3xl font-bold text-brand-black mb-4">
+                                    Respaldados por Fondo Emprender
+                                </h3>
+                                <p className="text-lg text-brand-black/80 leading-relaxed mb-4">
+                                    LapTech es actualmente una empresa beneficiaria del <span className="font-bold text-brand-green">Fondo Emprender del SENA</span>,
+                                    un programa del gobierno colombiano que impulsa emprendimientos innovadores con alto impacto social y ambiental.
+                                </p>
+                                <p className="text-brand-black/70 leading-relaxed mb-4">
+                                    Este respaldo nos ha permitido consolidarnos como referentes en la restauración y remanufacturación
+                                    de dispositivos Apple en Colombia, fortaleciendo nuestro compromiso con la economía circular y generando empleo
+                                    especializado de calidad en nuestra región.
+                                </p>
+                                <div className="flex flex-wrap gap-4 mt-6">
+                                    <div className="flex items-center gap-2 bg-brand-green/10 px-4 py-2 rounded-lg">
+                                        <span className="text-2xl">✅</span>
+                                        <span className="font-semibold text-brand-green">Beneficiarios 2024-2025</span>
+                                    </div>
+                                    <div className="flex items-center gap-2 bg-brand-blue/10 px-4 py-2 rounded-lg">
+                                        <span className="text-2xl">🇨🇴</span>
+                                        <span className="font-semibold text-brand-blue">Emprendimiento colombiano</span>
+                                    </div>
+                                    <div className="flex items-center gap-2 bg-brand-green/10 px-4 py-2 rounded-lg">
+                                        <span className="text-2xl">🌱</span>
+                                        <span className="font-semibold text-brand-green">Impacto social y ambiental</span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
