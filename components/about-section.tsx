@@ -10,12 +10,12 @@ const timelineData = [
         description: "Iniciamos como un pequeño taller especializado en reparación de equipos Apple, con la visión de ofrecer servicios de calidad y sostenibles.",
         icon: "🌱"
     },
-    {
-        year: "2017",
-        title: "Certificación Apple",
-        description: "Obtuvimos certificaciones oficiales que nos posicionaron como referentes en reparación y mantenimiento de dispositivos Macintosh.",
-        icon: "🏆"
-    },
+    // {
+    //     year: "2017",
+    //     title: "Certificación Apple",
+    //     description: "Obtuvimos certificaciones oficiales que nos posicionaron como referentes en reparación y mantenimiento de dispositivos Macintosh.",
+    //     icon: "🏆"
+    // },
     {
         year: "2019",
         title: "Economía Circular",
@@ -37,7 +37,7 @@ const timelineData = [
     {
         year: "2025",
         title: "Líderes en Sostenibilidad",
-        description: "Más de 5,000 dispositivos restaurados, evitando toneladas de residuos electrónicos. Reconocidos como referentes en tecnología circular en Colombia.",
+        description: "Más de 1,800 dispositivos restaurados, evitando toneladas de residuos electrónicos. Reconocidos como referentes en tecnología circular en Colombia.",
         icon: "🌍"
     }
 ];
@@ -55,8 +55,8 @@ const values = [
     },
     {
         icon: "🔧",
-        title: "Calidad Certificada",
-        description: "Técnicos especializados y certificados que garantizan trabajos de la más alta calidad."
+        title: "Calidad",
+        description: "Técnicos especializados que garantizan trabajos de la más alta calidad."
     },
     {
         icon: "💚",
@@ -91,7 +91,7 @@ export function AboutSection() {
                                 con la <span className="font-bold text-brand-green">economía circular</span> y la sostenibilidad.
                                 Restauramos, remanufacturamos y repotenciamos dispositivos Apple,
                                 dándoles una segunda vida mientras reducimos el impacto ambiental.
-                                Con más de <span className="font-bold">10 años de experiencia</span>,
+                                Con más de <span className="font-bold">5 años de experiencia</span>,
                                 hemos ayudado a miles de clientes a mantener sus equipos funcionando como nuevos.
                             </p>
                         </div>
@@ -139,11 +139,11 @@ export function AboutSection() {
                         </h3>
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                             <div className="text-center">
-                                <div className="text-5xl font-bold text-brand-green mb-2">5,000+</div>
+                                <div className="text-5xl font-bold text-brand-green mb-2">1,800+</div>
                                 <p className="text-brand-cream/80">Dispositivos restaurados</p>
                             </div>
                             <div className="text-center">
-                                <div className="text-5xl font-bold text-brand-blue mb-2">12 Ton</div>
+                                <div className="text-5xl font-bold text-brand-blue mb-2">4 Ton</div>
                                 <p className="text-brand-cream/80">Residuos electrónicos evitados</p>
                             </div>
                             <div className="text-center">

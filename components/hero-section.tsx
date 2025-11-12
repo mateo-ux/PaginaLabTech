@@ -49,12 +49,12 @@ export function HeroSection() {
                 {/* Stats */}
                 <div className="mt-20 grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
                     <div className="text-center">
-                        <h3 className="text-4xl font-bold text-brand-blue mb-2">10+</h3>
+                        <h3 className="text-4xl font-bold text-brand-blue mb-2">5+</h3>
                         <p className="text-brand-cream/60">Años de experiencia</p>
                     </div>
 
                     <div className="text-center">
-                        <h3 className="text-4xl font-bold text-brand-green mb-2">5,000+</h3>
+                        <h3 className="text-4xl font-bold text-brand-green mb-2">1,800+</h3>
                         <p className="text-brand-cream/60">Dispositivos restaurados</p>
                     </div>
 

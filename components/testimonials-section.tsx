@@ -49,7 +49,7 @@ export function TestimonialsSection() {
                         Lo Que Dicen Nuestros Clientes
                     </h2>
                     <p className="text-xl text-brand-black/70 max-w-3xl mx-auto">
-                        Más de 5,000 clientes satisfechos confían en nosotros para el cuidado
+                        Más de 1,800 clientes satisfechos confían en nosotros para el cuidado
                         de sus dispositivos Apple
                     </p>
                 </div>

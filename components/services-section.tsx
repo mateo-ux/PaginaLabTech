@@ -18,7 +18,7 @@ const services = [
     {
         icon: "♻️",
         title: "Restauración Completa",
-        description: "Devolvemos la vida a tu dispositivo con técnicas de restauración profesional y componentes certificados.",
+        description: "Devolvemos la vida a tu dispositivo con técnicas de restauración profesional y componentes originales.",
         features: [
             "Restauración de componentes",
             "Limpieza profunda interna",
@@ -42,9 +42,9 @@ const services = [
     {
         icon: "🔧",
         title: "Remanufacturación",
-        description: "Proceso completo de reacondicionamiento que incluye reparación, limpieza y certificación de calidad.",
+        description: "Proceso completo de reacondicionamiento que incluye reparación, limpieza y calidad garantizada.",
         features: [
-            "Proceso certificado",
+            "Proceso de calidad",
             "Componentes originales Apple",
             "6 meses de garantía",
             "Como nuevo, mejor precio"
@@ -113,26 +113,26 @@ export function ServicesSection() {
                             onMouseLeave={() => setHoveredIndex(null)}
                         >
                             <div className={`h-full bg-white rounded-2xl p-8 shadow-lg transition-all duration-500 border-2 ${hoveredIndex === index
-                                    ? service.color === "blue"
-                                        ? "border-brand-blue shadow-2xl -translate-y-2 shadow-brand-blue/20"
-                                        : "border-brand-green shadow-2xl -translate-y-2 shadow-brand-green/20"
-                                    : "border-transparent"
+                                ? service.color === "blue"
+                                    ? "border-brand-blue shadow-2xl -translate-y-2 shadow-brand-blue/20"
+                                    : "border-brand-green shadow-2xl -translate-y-2 shadow-brand-green/20"
+                                : "border-transparent"
                                 }`}>
 
                                 {/* Icon */}
                                 <div className={`inline-flex items-center justify-center w-16 h-16 rounded-2xl mb-6 text-4xl transition-all duration-500 ${hoveredIndex === index
-                                        ? service.color === "blue"
-                                            ? "bg-brand-blue text-white scale-110 rotate-6"
-                                            : "bg-brand-green text-white scale-110 rotate-6"
-                                        : "bg-gray-100"
+                                    ? service.color === "blue"
+                                        ? "bg-brand-blue text-white scale-110 rotate-6"
+                                        : "bg-brand-green text-white scale-110 rotate-6"
+                                    : "bg-gray-100"
                                     }`}>
                                     {service.icon}
                                 </div>
 
                                 {/* Title */}
                                 <h3 className={`text-2xl font-bold mb-3 transition-colors duration-300 ${hoveredIndex === index
-                                        ? service.color === "blue" ? "text-brand-blue" : "text-brand-green"
-                                        : "text-brand-black"
+                                    ? service.color === "blue" ? "text-brand-blue" : "text-brand-green"
+                                    : "text-brand-black"
                                     }`}>
                                     {service.title}
                                 </h3>
@@ -162,8 +162,8 @@ export function ServicesSection() {
 
                                 {/* CTA Button */}
                                 <button className={`mt-6 w-full py-3 rounded-xl font-semibold transition-all duration-300 ${service.color === "blue"
-                                        ? "bg-brand-blue/10 text-brand-blue hover:bg-brand-blue hover:text-white"
-                                        : "bg-brand-green/10 text-brand-green hover:bg-brand-green hover:text-white"
+                                    ? "bg-brand-blue/10 text-brand-blue hover:bg-brand-blue hover:text-white"
+                                    : "bg-brand-green/10 text-brand-green hover:bg-brand-green hover:text-white"
                                     }`}>
                                     Más información →
                                 </button>
