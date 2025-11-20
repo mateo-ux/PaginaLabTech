@@ -4,7 +4,7 @@ import { Spotlight } from "@/components/ui/spotlight";
 
 export function HeroSection() {
     return (
-        <section id="inicio" className="relative h-screen flex items-center justify-center bg-brand-black overflow-hidden">
+        <section id="inicio" className="relative min-h-screen pt-24 flex items-center justify-center bg-brand-black overflow-hidden">
             {/* Spotlights con tus colores corporativos */}
             <Spotlight className="-top-40 left-0 md:left-60 md:-top-20" fill="#6095bd" />
             <Spotlight className="top-10 left-full h-[80vh] w-[50vw]" fill="#69bba5" />

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase";
 
 interface Servicio {
@@ -20,6 +21,7 @@ interface Servicio {
 }
 
 export default function AdminPanel() {
+    const router = useRouter();
     const [servicios, setServicios] = useState<Servicio[]>([]);
     const [mostrarFormulario, setMostrarFormulario] = useState(false);
     const [editando, setEditando] = useState<string | null>(null);
@@ -154,7 +156,11 @@ export default function AdminPanel() {
             cargarServicios();
         }
     };
-
+    const handleLogout = () => {
+        localStorage.removeItem("adminAuthenticated");
+        localStorage.removeItem("adminLoginTime");
+        router.push("/admin-laptech-2024/login");
+    };
     const resetForm = () => {
         setFormData({
             cliente_nombre: "",
@@ -214,12 +220,29 @@ export default function AdminPanel() {
 
             <div className="max-w-7xl mx-auto">
                 {/* Header */}
-                <div className="bg-gradient-to-r from-brand-blue to-brand-green p-6 rounded-2xl mb-8 text-white">
-                    <h1 className="text-3xl font-bold mb-2">Panel de Administración - LapTech</h1>
-                    <p className="text-white/90">Gestión de servicios y seguimiento de equipos</p>
+                <div className="bg-gradient-to-r from-brand-blue to-brand-green p-6 rounded-2xl mb-8 text-white flex justify-between items-center">
+                    <div>
+                        <h1 className="text-3xl font-bold mb-2">Panel de Administración - LapTech</h1>
+                        <p className="text-white/90">Gestión de servicios y seguimiento de equipos</p>
+                    </div>
+                    <div className="flex gap-4">
+                        <button
+                            onClick={handleLogout}
+                            className="px-6 py-3 bg-red-500 text-white rounded-xl font-semibold hover:bg-red-600 transition-all"
+                        >
+                            Cerrar Sesión
+                        </button>
+                    </div>
+
                 </div>
 
+
                 {/* Botón Nuevo Servicio */}
+
+                <div className="flex justify-between items-center mb-8">
+
+
+                </div>
                 <div className="mb-6">
                     <button
                         onClick={() => setMostrarFormulario(!mostrarFormulario)}
