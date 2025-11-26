@@ -82,7 +82,7 @@ export function AboutSection() {
                             </h3>
                             <p className="text-lg text-brand-black/80 leading-relaxed text-center">
                                 Somos especialistas en
-                                <span className="font-bold text-brand-blue">Macintosh y
+                                <span className="font-bold text-brand-blue"> Macintosh y
                                     Multimarca </span>
                                 comprometidos con la
                                 <span className="font-bold text-brand-green"> economía circular y
@@ -101,42 +101,10 @@ export function AboutSection() {
                     </div>
                 </div>
 
-                {/* Timeline */}
-                <div className="mb-20">
-                    <h3 className="text-3xl md:text-4xl font-bold text-center text-brand-black mb-12">
-                        Nuestra Trayectoria
-                    </h3>
-                    <Timeline data={timelineData} />
-                </div>
-
-                {/* Values */}
-                <div className="mb-16">
-                    <h3 className="text-3xl md:text-4xl font-bold text-center text-brand-black mb-12">
-                        Nuestros Valores
-                    </h3>
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                        {values.map((value, index) => (
-                            <div
-                                key={index}
-                                className="group bg-white p-6 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-2 border-2 border-transparent hover:border-brand-blue"
-                            >
-                                <div className="text-5xl mb-4 group-hover:scale-110 transition-transform duration-300">
-                                    {value.icon}
-                                </div>
-                                <h4 className="text-xl font-bold text-brand-black mb-3 group-hover:text-brand-blue transition-colors">
-                                    {value.title}
-                                </h4>
-                                <p className="text-brand-black/70 text-sm leading-relaxed">
-                                    {value.description}
-                                </p>
-                            </div>
-                        ))}
-                    </div>
-                </div>
                 {/* Fondo Emprender */}
-                <div className="mt-16">
-                    <div className="bg-white rounded-3xl p-8 md:p-12 shadow-xl border-2 border-brand-green/20">
-                        <div className="flex flex-col md:flex-row items-center gap-8">
+                <div className="max-w-4xl mx-auto mb-20">
+                    <div className="bg-gradient-to-br from-brand-blue to-brand-green p-1 rounded-3xl">
+                        <div className="bg-white p-8 md:p-12 rounded-3xl">
                             {/* Logo */}
                             <div className="flex-shrink-0">
                                 <Image
@@ -179,6 +147,39 @@ export function AboutSection() {
                                 </div>
                             </div>
                         </div>
+                    </div>
+                </div>
+
+                {/* Timeline */}
+                <div className="mb-20">
+                    <h3 className="text-3xl md:text-4xl font-bold text-center text-brand-black mb-12">
+                        Nuestra Trayectoria
+                    </h3>
+                    <Timeline data={timelineData} />
+                </div>
+
+                {/* Values */}
+                <div className="mb-16">
+                    <h3 className="text-3xl md:text-4xl font-bold text-center text-brand-black mb-12">
+                        Nuestros Valores
+                    </h3>
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                        {values.map((value, index) => (
+                            <div
+                                key={index}
+                                className="group bg-white p-6 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-2 border-2 border-transparent hover:border-brand-blue"
+                            >
+                                <div className="text-5xl mb-4 group-hover:scale-110 transition-transform duration-300">
+                                    {value.icon}
+                                </div>
+                                <h4 className="text-xl font-bold text-brand-black mb-3 group-hover:text-brand-blue transition-colors">
+                                    {value.title}
+                                </h4>
+                                <p className="text-brand-black/70 text-sm leading-relaxed">
+                                    {value.description}
+                                </p>
+                            </div>
+                        ))}
                     </div>
                 </div>
             </div>

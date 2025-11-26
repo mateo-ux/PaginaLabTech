@@ -39,7 +39,7 @@ const educationalContent = [
     },
     {
         title: "Ciclo de Vida Extendido",
-        description: "Con el mantenimiento adecuado, un Mac, una iMac u otro dispositivo de cualquier marca puede durar 10+ años. La repotenciación puede hacerlo funcionar como nuevo.",
+        description: "Con el mantenimiento adecuado, un Mac, una iMac u otro dispositivo de cualquier marca puede durar 5+ años. La repotenciación puede hacerlo funcionar como nuevo.",
         icon: "🔄",
         className: "md:col-span-2",
         header: (

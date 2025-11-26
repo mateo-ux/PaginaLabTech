@@ -2,6 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
+
 /* Fix para overflow horizontal en móvil */
 * {
   box-sizing: border-box;
