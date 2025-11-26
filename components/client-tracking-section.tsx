@@ -80,9 +80,9 @@ export function ClientTrackingSection() {
                     <form onSubmit={buscarServicio} className="space-y-6">
                         <div>
                             <label htmlFor="referencia" className="block text-lg font-semibold text-brand-black mb-3">Código de Referencia</label>
-                            <div className="flex gap-4">
+                            <div className="flex flex-col sm:flex-row gap-4">
                                 <input type="text" id="referencia" value={referencia} onChange={(e) => setReferencia(e.target.value)} placeholder="Ej: LT-2024-001" className="flex-1 px-6 py-4 border-2 border-gray-300 rounded-xl text-lg focus:outline-none focus:border-brand-blue transition-colors uppercase" required />
-                                <button type="submit" disabled={loading} className="px-8 py-4 bg-gradient-to-r from-brand-blue to-brand-green text-white rounded-xl font-semibold text-lg hover:shadow-xl transition-all transform hover:scale-105 disabled:opacity-50">
+                                <button type="submit" disabled={loading} className="px-8 py-4 bg-gradient-to-r from-brand-blue to-brand-green text-white rounded-xl font-semibold text-lg hover:shadow-xl transition-all transform hover:scale-105 disabled:opacity-50 whitespace-nowrap">
                                     {loading ? "Buscando..." : "Consultar"}
                                 </button>
                             </div>
