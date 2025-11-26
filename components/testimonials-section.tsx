@@ -49,8 +49,8 @@ export function TestimonialsSection() {
                         Lo Que Dicen Nuestros Clientes
                     </h2>
                     <p className="text-xl text-brand-black/70 max-w-3xl mx-auto">
-                        Más de 1,800 clientes satisfechos confían en nosotros para el cuidado
-                        de sus dispositivos Apple
+                        Más de 1,800 clientes satisfechos confían en nosotros para el
+                        cuidado de sus dispositivos Mac, iMac y multimarca
                     </p>
                 </div>
 
@@ -63,25 +63,7 @@ export function TestimonialsSection() {
                     />
                 </div>
 
-                {/* Stats */}
-                <div className="mt-20 grid grid-cols-2 md:grid-cols-4 gap-8">
-                    <div className="text-center">
-                        <div className="text-4xl font-bold text-brand-blue mb-2">98%</div>
-                        <p className="text-brand-black/70 text-sm">Satisfacción</p>
-                    </div>
-                    <div className="text-center">
-                        <div className="text-4xl font-bold text-brand-green mb-2">4.9/5</div>
-                        <p className="text-brand-black/70 text-sm">Calificación</p>
-                    </div>
-                    <div className="text-center">
-                        <div className="text-4xl font-bold text-brand-blue mb-2">500+</div>
-                        <p className="text-brand-black/70 text-sm">Reseñas Google</p>
-                    </div>
-                    <div className="text-center">
-                        <div className="text-4xl font-bold text-brand-green mb-2">100%</div>
-                        <p className="text-brand-black/70 text-sm">Recomendados</p>
-                    </div>
-                </div>
+
 
                 {/* CTA */}
                 <div className="mt-16 text-center">

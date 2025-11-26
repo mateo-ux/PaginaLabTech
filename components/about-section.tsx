@@ -5,27 +5,21 @@ import Image from "next/image";
 
 const timelineData = [
     {
-        year: "2014",
+        year: "2019",
         title: "Nace LapTech",
-        description: "Iniciamos como un pequeño taller especializado en reparación de equipos Apple, con la visión de ofrecer servicios de calidad y sostenibles.",
+        description: "Iniciamos como un pequeño taller especializado en reparación de equipos Mac, iMac y multimarca, con la visión de ofrecer servicios de calidad y sostenibles.",
         icon: "🌱"
     },
-    // {
-    //     year: "2017",
-    //     title: "Certificación Apple",
-    //     description: "Obtuvimos certificaciones oficiales que nos posicionaron como referentes en reparación y mantenimiento de dispositivos Macintosh.",
-    //     icon: "🏆"
-    // },
     {
-        year: "2019",
+        year: "2020",
         title: "Economía Circular",
         description: "Implementamos nuestro programa de economía circular, enfocándonos en la restauración y remanufacturación de equipos para reducir el impacto ambiental.",
         icon: "♻️"
     },
     {
-        year: "2021",
+        year: "2022",
         title: "Expansión de Servicios",
-        description: "Ampliamos nuestra oferta con servicios de repotenciación y recuperación de datos, convirtiéndonos en un centro integral de soluciones Apple.",
+        description: "Ampliamos nuestra oferta con servicios de repotenciación, convirtiéndonos en un centro especializado de soluciones Mac, iMac y multimarca.",
         icon: "⚡"
     },
     {
@@ -87,12 +81,21 @@ export function AboutSection() {
                                 Nuestra Misión
                             </h3>
                             <p className="text-lg text-brand-black/80 leading-relaxed text-center">
-                                Somos especialistas en <span className="font-bold text-brand-blue">Macintosh</span> comprometidos
-                                con la <span className="font-bold text-brand-green">economía circular</span> y la sostenibilidad.
-                                Restauramos, remanufacturamos y repotenciamos dispositivos Apple,
-                                dándoles una segunda vida mientras reducimos el impacto ambiental.
+                                Somos especialistas en
+                                <span className="font-bold text-brand-blue">Macintosh y
+                                    Multimarca </span>
+                                comprometidos con la
+                                <span className="font-bold text-brand-green"> economía circular y
+                                    sostenibilidad</span>
+                                ; restauramos, remanufacturados y repotenciamos dispositivos, dándoles una segunda vida mientras reducimos el impacto ambiental.
                                 Con más de <span className="font-bold">5 años de experiencia</span>,
                                 hemos ayudado a miles de clientes a mantener sus equipos funcionando como nuevos.
+                                <br />
+                                <br />
+                                Queremos ser una alternativa diferente en el mercado, ofreciendo un servicio profesional, con garantía y a un precio justo.
+                                <br />
+                                <br />
+                                Nos caracteriza contar con la tecnología y la experiencia necesarias para brindar soluciones a los problemas más complejos de tus dispositivos.
                             </p>
                         </div>
                     </div>
@@ -130,30 +133,6 @@ export function AboutSection() {
                         ))}
                     </div>
                 </div>
-
-                {/* Impact Stats */}
-                <div className="bg-gradient-to-r from-brand-blue to-brand-green p-1 rounded-3xl mb-16">
-                    <div className="bg-brand-black p-8 md:p-12 rounded-3xl">
-                        <h3 className="text-3xl font-bold text-center text-white mb-8">
-                            Nuestro Impacto Ambiental
-                        </h3>
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                            <div className="text-center">
-                                <div className="text-5xl font-bold text-brand-green mb-2">1,800+</div>
-                                <p className="text-brand-cream/80">Dispositivos restaurados</p>
-                            </div>
-                            <div className="text-center">
-                                <div className="text-5xl font-bold text-brand-blue mb-2">4 Ton</div>
-                                <p className="text-brand-cream/80">Residuos electrónicos evitados</p>
-                            </div>
-                            <div className="text-center">
-                                <div className="text-5xl font-bold text-brand-green mb-2">85%</div>
-                                <p className="text-brand-cream/80">Tasa de éxito en recuperación</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
                 {/* Fondo Emprender */}
                 <div className="mt-16">
                     <div className="bg-white rounded-3xl p-8 md:p-12 shadow-xl border-2 border-brand-green/20">
@@ -179,9 +158,10 @@ export function AboutSection() {
                                     un programa del gobierno colombiano que impulsa emprendimientos innovadores con alto impacto social y ambiental.
                                 </p>
                                 <p className="text-brand-black/70 leading-relaxed mb-4">
-                                    Este respaldo nos ha permitido consolidarnos como referentes en la restauración y remanufacturación
-                                    de dispositivos Apple en Colombia, fortaleciendo nuestro compromiso con la economía circular y generando empleo
-                                    especializado de calidad en nuestra región.
+                                    Este respaldo nos ha permitido consolidarnos como referentes en la restauración y Re manufacturación de dispositivos Mac, iMac
+                                    y multimarca en Colombia, fortaleciendo nuestro compromiso con la economía circular y generando empleo especializado de calidad
+                                    en nuestra región.
+
                                 </p>
                                 <div className="flex flex-wrap gap-4 mt-6">
                                     <div className="flex items-center gap-2 bg-brand-green/10 px-4 py-2 rounded-lg">

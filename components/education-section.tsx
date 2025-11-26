@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { BentoGrid, BentoGridItem } from "@/components/ui/bento-grid";
 
 const educationalContent = [
@@ -38,7 +39,7 @@ const educationalContent = [
     },
     {
         title: "Ciclo de Vida Extendido",
-        description: "Con el mantenimiento adecuado, un Mac puede durar 10+ años. La repotenciación puede hacerlo funcionar como nuevo.",
+        description: "Con el mantenimiento adecuado, un Mac, una iMac u otro dispositivo de cualquier marca puede durar 10+ años. La repotenciación puede hacerlo funcionar como nuevo.",
         icon: "🔄",
         className: "md:col-span-2",
         header: (
@@ -72,13 +73,89 @@ const educationalContent = [
 ];
 
 const guides = [
-    { title: "Guía de Mantenimiento", description: "Aprende a cuidar tu Mac para maximizar su vida útil", link: "#", color: "blue" },
-    { title: "Señales de Alerta", description: "Identifica cuándo tu dispositivo necesita atención profesional", link: "#", color: "green" },
-    { title: "Repotenciación Inteligente", description: "Descubre cómo mejorar el rendimiento de tu Mac", link: "#", color: "blue" },
-    { title: "Economía Circular en Acción", description: "Casos de éxito y testimonios de restauración", link: "#", color: "green" }
+    {
+        title: "Guía de Mantenimiento",
+        description: "Aprende a cuidar tu Mac para maximizar su vida útil",
+        color: "blue",
+        fullContent: {
+            intro: "El mantenimiento preventivo es clave para alargar la vida útil de tu dispositivo Apple.",
+            sections: [
+                {
+                    title: "Limpieza Regular",
+                    content: "Limpia la pantalla con un paño de microfibra suave. Evita productos químicos agresivos. Limpia el teclado con aire regularmente."
+                },
+                {
+                    title: "Actualizaciones",
+                    content: "Mantén tu sistema operativo actualizado. Instala las actualizaciones de seguridad tan pronto estén disponibles. Actualiza tus aplicaciones regularmente."
+                },
+                {
+                    title: "Gestión de Batería",
+                    content: "Evita dejar tu Mac conectado al cargador todo el tiempo. Mantén la batería entre 20% y 80% cuando sea posible."
+                },
+                {
+                    title: "Temperatura",
+                    content: "Usa tu Mac en superficies duras y planas. Evita bloquear las rejillas de ventilación. No lo expongas a temperaturas extremas."
+                }
+            ]
+        }
+    },
+    {
+        title: "Señales de Alerta",
+        description: "Identifica cuándo tu dispositivo necesita atención profesional",
+        color: "green",
+        fullContent: {
+            intro: "Reconocer los problemas a tiempo puede evitar daños mayores y costos más altos.",
+            sections: [
+                {
+                    title: "Rendimiento Lento",
+                    content: "Si tu Mac tarda más de lo normal en encender o abrir aplicaciones, puede necesitar mantenimiento. El disco duro podría estar lleno o dañado."
+                },
+                {
+                    title: "Sobrecalentamiento",
+                    content: "Si tu dispositivo se calienta excesivamente o los ventiladores funcionan constantemente a máxima velocidad, necesitas limpieza interna o cambio de pasta térmica."
+                },
+                {
+                    title: "Problemas de Batería",
+                    content: "Si la batería se descarga rápidamente o no carga correctamente, es momento de reemplazarla. No ignores estos signos."
+                },
+                {
+                    title: "Ruidos Extraños",
+                    content: "Clicks, zumbidos o ruidos inusuales pueden indicar problemas con el disco duro o ventiladores. Requiere atención inmediata."
+                }
+            ]
+        }
+    },
+    {
+        title: "Repotenciación Inteligente",
+        description: "Descubre cómo mejorar el rendimiento de tu Mac",
+        color: "blue",
+        fullContent: {
+            intro: "La repotenciación puede hacer que tu Mac funcione como nuevo sin necesidad de comprar uno nuevo.",
+            sections: [
+                {
+                    title: "Upgrade de RAM",
+                    content: "Aumentar la memoria RAM mejora significativamente el rendimiento multitarea. Ideal si trabajas con programas pesados como edición de video o diseño gráfico. Puede duplicar o triplicar la velocidad."
+                },
+                {
+                    title: "SSD en lugar de HDD",
+                    content: "Reemplazar un disco duro tradicional por un SSD es la mejora más impactante. Arranque hasta 10 veces más rápido. Apertura instantánea de aplicaciones. Mayor durabilidad sin partes móviles."
+                },
+                {
+                    title: "Limpieza y Mantenimiento",
+                    content: "Una limpieza profunda interna puede mejorar el rendimiento hasta un 40%. Cambio de pasta térmica reduce temperaturas. Limpieza de ventiladores mejora el flujo de aire."
+                },
+                {
+                    title: "Actualización de macOS",
+                    content: "Mantener el sistema actualizado optimiza el rendimiento. Nuevas funciones de eficiencia energética. Mejor compatibilidad con aplicaciones modernas."
+                }
+            ]
+        }
+    }
 ];
 
 export function EducationSection() {
+    const [selectedGuide, setSelectedGuide] = useState<number | null>(null);
+
     return (
         <section id="educacion" className="py-20 px-4 bg-white">
             <div className="max-w-7xl mx-auto">
@@ -93,46 +170,50 @@ export function EducationSection() {
                     ))}
                 </BentoGrid>
 
-                <div className="bg-gradient-to-br from-brand-green/10 to-brand-blue/10 rounded-3xl p-8 md:p-12 mb-16">
-                    <h3 className="text-3xl font-bold text-center text-brand-black mb-8">Beneficios Ambientales para Nuestros Clientes</h3>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
-                        <div className="bg-white p-6 rounded-2xl shadow-md">
-                            <div className="text-4xl mb-4">💰</div>
-                            <h4 className="text-xl font-bold text-brand-blue mb-2">Ahorro Económico</h4>
-                            <p className="text-brand-black/70">Restaurar puede costar hasta un 70% menos que comprar nuevo, manteniendo la misma calidad y rendimiento.</p>
-                        </div>
-                        <div className="bg-white p-6 rounded-2xl shadow-md">
-                            <div className="text-4xl mb-4">🌿</div>
-                            <h4 className="text-xl font-bold text-brand-green mb-2">Reducción de Huella</h4>
-                            <p className="text-brand-black/70">Cada restauración evita la emisión de gases equivalente a plantar 3 árboles.</p>
-                        </div>
-                        <div className="bg-white p-6 rounded-2xl shadow-md">
-                            <div className="text-4xl mb-4">🔋</div>
-                            <h4 className="text-xl font-bold text-brand-blue mb-2">Eficiencia Energética</h4>
-                            <p className="text-brand-black/70">La remanufacturación usa 90% menos energía que producir un dispositivo nuevo.</p>
-                        </div>
-                        <div className="bg-white p-6 rounded-2xl shadow-md">
-                            <div className="text-4xl mb-4">♻️</div>
-                            <h4 className="text-xl font-bold text-brand-green mb-2">Menos Residuos</h4>
-                            <p className="text-brand-black/70">Contribuyes a reducir los 2.5 millones de toneladas de e-waste que genera Colombia anualmente.</p>
-                        </div>
-                    </div>
-                </div>
-
                 <div>
                     <h3 className="text-3xl font-bold text-center text-brand-black mb-8">Guías y Recursos</h3>
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div className="flex flex-wrap justify-center gap-6">
                         {guides.map((guide, index) => (
-                            <a key={index} href={guide.link} className={`group p-6 rounded-2xl bg-white shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-2 border-2 border-transparent ${guide.color === "blue" ? "hover:border-brand-blue" : "hover:border-brand-green"}`}>
+                            <div key={index} onClick={() => setSelectedGuide(index)} className={`cursor-pointer w-full md:w-[calc(33.333%-1rem)] max-w-sm group p-6 rounded-2xl bg-white shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-2 border-2 border-transparent ${guide.color === "blue" ? "hover:border-brand-blue" : "hover:border-brand-green"}`}>
                                 <div className={`text-4xl mb-4 group-hover:scale-110 transition-transform ${guide.color === "blue" ? "text-brand-blue" : "text-brand-green"}`}>📚</div>
                                 <h4 className={`text-lg font-bold mb-2 ${guide.color === "blue" ? "text-brand-blue" : "text-brand-green"}`}>{guide.title}</h4>
                                 <p className="text-sm text-brand-black/70 mb-4">{guide.description}</p>
                                 <span className={`text-sm font-semibold ${guide.color === "blue" ? "text-brand-blue" : "text-brand-green"}`}>Leer más →</span>
-                            </a>
+                            </div>
                         ))}
                     </div>
                 </div>
             </div>
+
+            {selectedGuide !== null && (
+                <div className="fixed inset-0 bg-brand-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 animate-fade-in" onClick={() => setSelectedGuide(null)}>
+                    <div className="bg-white rounded-3xl max-w-3xl w-full max-h-[90vh] overflow-y-auto shadow-2xl" onClick={(e) => e.stopPropagation()}>
+                        <div className={`relative p-8 rounded-t-3xl ${guides[selectedGuide].color === "blue" ? "bg-gradient-to-r from-brand-blue to-brand-blue/80" : "bg-gradient-to-r from-brand-green to-brand-green/80"}`}>
+                            <button onClick={() => setSelectedGuide(null)} className="absolute top-4 right-4 w-10 h-10 bg-white rounded-full flex items-center justify-center text-xl hover:bg-gray-100 transition-colors shadow-lg">×</button>
+                            <div className="text-6xl mb-4">📚</div>
+                            <h2 className="text-3xl font-bold text-white mb-2">{guides[selectedGuide].title}</h2>
+                            <p className="text-white/90 text-lg">{guides[selectedGuide].fullContent.intro}</p>
+                        </div>
+
+                        <div className="p-8">
+                            {guides[selectedGuide].fullContent.sections.map((section, i) => (
+                                <div key={i} className="mb-8 last:mb-0">
+                                    <h3 className={`text-xl font-bold mb-3 ${guides[selectedGuide].color === "blue" ? "text-brand-blue" : "text-brand-green"}`}>{section.title}</h3>
+                                    <p className="text-brand-black/80 leading-relaxed">{section.content}</p>
+                                </div>
+                            ))}
+
+                            <div className="mt-8 pt-6 border-t border-gray-200">
+                                <p className="text-center text-brand-black/60 mb-4">¿Necesitas ayuda profesional con tu dispositivo?</p>
+                                <div className="flex gap-4">
+                                    <a href="#contacto" onClick={() => setSelectedGuide(null)} className={`flex-1 py-3 text-center rounded-xl font-semibold text-white transition-all hover:shadow-xl ${guides[selectedGuide].color === "blue" ? "bg-brand-blue hover:bg-brand-blue/90" : "bg-brand-green hover:bg-brand-green/90"}`}>Contactar a LapTech</a>
+                                    <button onClick={() => setSelectedGuide(null)} className="px-6 py-3 border-2 border-gray-300 rounded-xl font-semibold text-brand-black hover:bg-gray-50 transition-all">Cerrar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
         </section>
     );
 }
