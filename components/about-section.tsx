@@ -7,7 +7,7 @@ const timelineData = [
     {
         year: "2019",
         title: "Nace LapTech",
-        description: "Iniciamos como un pequeño taller especializado en reparación de equipos Mac, iMac y multimarca, con la visión de ofrecer servicios de calidad y sostenibles.",
+        description: "Iniciamos como un pequeño taller especializado en reparación de equipos Mac, iMac y demas dispositivos, con la visión de ofrecer servicios de calidad y sostenibles.",
         icon: "🌱"
     },
     {
@@ -19,7 +19,7 @@ const timelineData = [
     {
         year: "2022",
         title: "Expansión de Servicios",
-        description: "Ampliamos nuestra oferta con servicios de repotenciación, convirtiéndonos en un centro especializado de soluciones Mac, iMac y multimarca.",
+        description: "Ampliamos nuestra oferta con servicios de repotenciación, convirtiéndonos en un centro especializado de soluciones Mac, iMac o multimarca.",
         icon: "⚡"
     },
     {
@@ -54,7 +54,7 @@ const values = [
     },
     {
         icon: "💚",
-        title: "Pasión por Apple",
+        title: "Pasión por Mac e iMac",
         description: "Expertos apasionados por el ecosistema Apple y su tecnología innovadora."
     }
 ];
@@ -69,7 +69,7 @@ export function AboutSection() {
                         Quiénes Somos
                     </h2>
                     <p className="text-xl text-brand-black/70 max-w-3xl mx-auto">
-                        Una historia de pasión por la tecnología Apple y compromiso con el medio ambiente
+                        Una historia de pasión por la tecnología y compromiso con el medio ambiente
                     </p>
                 </div>
 
@@ -127,7 +127,7 @@ export function AboutSection() {
                                 </p>
                                 <p className="text-brand-black/70 leading-relaxed mb-4">
                                     Este respaldo nos ha permitido consolidarnos como referentes en la restauración y Re manufacturación de dispositivos Mac, iMac
-                                    y multimarca en Colombia, fortaleciendo nuestro compromiso con la economía circular y generando empleo especializado de calidad
+                                    o multimarca en Colombia, fortaleciendo nuestro compromiso con la economía circular y generando empleo especializado de calidad
                                     en nuestra región.
 
                                 </p>

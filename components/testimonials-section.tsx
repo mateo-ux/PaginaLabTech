@@ -50,7 +50,7 @@ export function TestimonialsSection() {
                     </h2>
                     <p className="text-xl text-brand-black/70 max-w-3xl mx-auto">
                         Más de 1,800 clientes satisfechos confían en nosotros para el
-                        cuidado de sus dispositivos Mac, iMac y multimarca
+                        cuidado de sus dispositivos Mac, iMac o multimarca
                     </p>
                 </div>
 

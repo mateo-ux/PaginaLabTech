@@ -78,7 +78,7 @@ const guides = [
         description: "Aprende a cuidar tu Mac para maximizar su vida útil",
         color: "blue",
         fullContent: {
-            intro: "El mantenimiento preventivo es clave para alargar la vida útil de tu dispositivo Apple.",
+            intro: "El mantenimiento preventivo es clave para alargar la vida útil de tus dispositivos.",
             sections: [
                 {
                     title: "Limpieza Regular",

@@ -6,8 +6,8 @@ const inter = Inter({ subsets: ["latin"] });
 
 // Agregar la fuente Space Age desde Google Fonts
 export const metadata: Metadata = {
-  title: "Reparación Apple - Especialistas",
-  description: "Diagnóstico, reparación y mantenimiento de dispositivos Apple",
+  title: "Reparación de dispocitivos Mac, iMac o Multimarca especializada",
+  description: "Diagnóstico, reparación y mantenimiento de dispositivos Mac, iMac o Multimarca",
 };
 
 export default function RootLayout({

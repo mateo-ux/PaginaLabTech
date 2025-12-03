@@ -7,7 +7,7 @@ const services = [
     {
         icon: "🔍",
         title: "Diagnóstico Profesional",
-        description: "Evaluación completa y detallada de tu dispositivo Apple. Identificamos el problema con precisión utilizando herramientas especializadas.",
+        description: "Evaluación completa y detallada de tu dispositivo Mac, iMac o Multimarca. Identificamos el problema con precisión utilizando herramientas especializadas.",
         image: "/images/services/diagnostico.jpg",
         features: [
             "Revisión exhaustiva de hardware",
@@ -50,7 +50,7 @@ const services = [
         image: "/images/services/remanufacturacion.jpg",
         features: [
             "Proceso de calidad",
-            "Componentes originales Apple",
+            "Componentes originales",
             "6 meses de garantía",
             "Como nuevo, mejor precio"
         ],
@@ -59,7 +59,7 @@ const services = [
     {
         icon: "🛡️",
         title: "Mantenimiento Preventivo",
-        description: "Prevención y cuidado continuo para alargar la vida útil de tus dispositivos Apple y multimarca.",
+        description: "Prevención y cuidado continuo para alargar la vida útil de tus dispositivos Mac, iMac o Multimarca.",
         image: "/images/services/mantenimiento.jpg",
         features: [
             "Limpieza de ventiladores",
@@ -82,7 +82,7 @@ export function ServicesSection() {
             <div className="max-w-7xl mx-auto relative z-10">
                 <div className="text-center mb-16">
                     <h2 className="text-4xl md:text-6xl font-bold text-brand-black mb-4">Nuestros Servicios</h2>
-                    <p className="text-xl text-brand-black/70 max-w-3xl mx-auto">Soluciones completas de restauración, remanufacturación y repotenciación para todos tus dispositivos Apple</p>
+                    <p className="text-xl text-brand-black/70 max-w-3xl mx-auto">Soluciones completas de restauración, remanufacturación y repotenciación para todos tus dispositivos Mac, iMac o Multimarca</p>
                     <div className="mt-6 flex items-center justify-center gap-2">
                         <span className="inline-block w-20 h-1 bg-brand-blue rounded-full" />
                         <span className="inline-block w-3 h-3 bg-brand-green rounded-full" />
