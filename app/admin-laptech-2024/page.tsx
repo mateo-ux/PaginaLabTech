@@ -5,11 +5,11 @@ import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase";
 
 interface Servicio {
-    id: string;
+    id: number;
     referencia: string;
     cliente_nombre: string;
-    cliente_telefono: string;
     cliente_email: string;
+    cliente_telefono: string;
     dispositivo: string;
     descripcion_problema: string;
     servicio_seleccionado: string;
@@ -18,61 +18,69 @@ interface Servicio {
     fecha_estimada: string;
     notas_tecnicas: string;
     precio_estimado: number;
+    created_at: string;
 }
 
-export default function AdminPanel() {
+export default function AdminPage() {
     const router = useRouter();
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [isChecking, setIsChecking] = useState(true);
+
     const [servicios, setServicios] = useState<Servicio[]>([]);
-    const [mostrarFormulario, setMostrarFormulario] = useState(false);
-    const [editando, setEditando] = useState<string | null>(null);
-    const [loading, setLoading] = useState(false);
-    const [dbConnected, setDbConnected] = useState<boolean | null>(null);
+    const [loading, setLoading] = useState(true);
+    const [showForm, setShowForm] = useState(false);
+    const [editingServicio, setEditingServicio] = useState<Servicio | null>(null);
 
     const [formData, setFormData] = useState({
         cliente_nombre: "",
-        cliente_telefono: "",
         cliente_email: "",
+        cliente_telefono: "",
         dispositivo: "",
         descripcion_problema: "",
-        servicio_seleccionado: "Diagnóstico",
+        servicio_seleccionado: "",
         estado: "Recibido",
         fecha_estimada: "",
         notas_tecnicas: "",
-        precio_estimado: "",
+        precio_estimado: 0,
     });
 
-    const serviciosDisponibles = [
-        "Diagnóstico",
-        "Restauración",
-        "Repotenciación",
-        "Remanufacturación",
-        "Mantenimiento",
-        "Recuperación de Datos",
-    ];
-
-    const estadosDisponibles = [
-        "Recibido",
-        "En diagnóstico",
-        "Diagnóstico completado",
-        "En reparación",
-        "En espera de repuestos",
-        "Reparación completada",
-        "Listo para entrega",
-        "Entregado",
-    ];
-
     useEffect(() => {
-        verificarConexion();
-        cargarServicios();
-    }, []);
+        const checkAuth = () => {
+            const authenticated = localStorage.getItem("adminAuthenticated");
+            const loginTime = localStorage.getItem("adminLoginTime");
 
-    const verificarConexion = async () => {
-        try {
-            const { error } = await supabase.from("servicios").select("count").limit(1);
-            setDbConnected(!error);
-        } catch (err) {
-            setDbConnected(false);
+            if (!authenticated || authenticated !== "true") {
+                router.push("/admin-laptech-2024/login");
+                return false;
+            }
+
+            if (loginTime) {
+                const twentyFourHours = 24 * 60 * 60 * 1000;
+                const timePassed = Date.now() - parseInt(loginTime);
+
+                if (timePassed > twentyFourHours) {
+                    localStorage.removeItem("adminAuthenticated");
+                    localStorage.removeItem("adminLoginTime");
+                    router.push("/admin-laptech-2024/login");
+                    return false;
+                }
+            }
+
+            return true;
+        };
+
+        const isAuth = checkAuth();
+        if (isAuth) {
+            setIsAuthenticated(true);
+            setIsChecking(false);
+            cargarServicios();
         }
+    }, [router]);
+
+    const handleLogout = () => {
+        localStorage.removeItem("adminAuthenticated");
+        localStorage.removeItem("adminLoginTime");
+        router.push("/admin-laptech-2024/login");
     };
 
     const cargarServicios = async () => {
@@ -82,150 +90,119 @@ export default function AdminPanel() {
             .select("*")
             .order("created_at", { ascending: false });
 
-        if (error) {
-            console.error("Error:", error);
-        } else {
-            setServicios(data || []);
+        if (!error && data) {
+            setServicios(data);
         }
         setLoading(false);
     };
 
+    const generarReferencia = () => {
+        const year = new Date().getFullYear();
+        const random = Math.floor(Math.random() * 9000) + 1000;
+        return `LT-${year}-${random}`;
+    };
+
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        setLoading(true);
 
-        const datos = {
-            ...formData,
-            precio_estimado: formData.precio_estimado ? parseFloat(formData.precio_estimado) : null,
-            fecha_estimada: formData.fecha_estimada || null,
-        };
-
-        if (editando) {
+        if (editingServicio) {
             const { error } = await supabase
                 .from("servicios")
-                .update(datos)
-                .eq("id", editando);
+                .update(formData)
+                .eq("id", editingServicio.id);
 
-            if (error) {
-                alert("Error al actualizar: " + error.message);
-            } else {
+            if (!error) {
                 alert("Servicio actualizado exitosamente");
                 resetForm();
                 cargarServicios();
             }
         } else {
-            const { error } = await supabase.from("servicios").insert([datos]);
+            const { error } = await supabase.from("servicios").insert([
+                {
+                    ...formData,
+                    referencia: generarReferencia(),
+                    fecha_ingreso: new Date().toISOString().split("T")[0],
+                },
+            ]);
 
-            if (error) {
-                alert("Error al crear: " + error.message);
-            } else {
+            if (!error) {
                 alert("Servicio creado exitosamente");
                 resetForm();
                 cargarServicios();
             }
         }
-        setLoading(false);
     };
 
-    const editarServicio = (servicio: Servicio) => {
+    const handleEdit = (servicio: Servicio) => {
+        setEditingServicio(servicio);
         setFormData({
             cliente_nombre: servicio.cliente_nombre,
+            cliente_email: servicio.cliente_email,
             cliente_telefono: servicio.cliente_telefono,
-            cliente_email: servicio.cliente_email || "",
             dispositivo: servicio.dispositivo,
             descripcion_problema: servicio.descripcion_problema,
             servicio_seleccionado: servicio.servicio_seleccionado,
             estado: servicio.estado,
-            fecha_estimada: servicio.fecha_estimada || "",
+            fecha_estimada: servicio.fecha_estimada,
             notas_tecnicas: servicio.notas_tecnicas || "",
-            precio_estimado: servicio.precio_estimado?.toString() || "",
+            precio_estimado: servicio.precio_estimado || 0,
         });
-        setEditando(servicio.id);
-        setMostrarFormulario(true);
+        setShowForm(true);
     };
 
-    const eliminarServicio = async (id: string) => {
-        if (!confirm("¿Estás seguro de eliminar este servicio?")) return;
-
-        const { error } = await supabase.from("servicios").delete().eq("id", id);
-
-        if (error) {
-            alert("Error al eliminar: " + error.message);
-        } else {
-            alert("Servicio eliminado");
-            cargarServicios();
+    const handleDelete = async (id: number) => {
+        if (confirm("¿Estás seguro de eliminar este servicio?")) {
+            const { error } = await supabase.from("servicios").delete().eq("id", id);
+            if (!error) {
+                alert("Servicio eliminado");
+                cargarServicios();
+            }
         }
     };
-    const handleLogout = () => {
-        localStorage.removeItem("adminAuthenticated");
-        localStorage.removeItem("adminLoginTime");
-        router.push("/admin-laptech-2024/login");
-    };
+
     const resetForm = () => {
         setFormData({
             cliente_nombre: "",
-            cliente_telefono: "",
             cliente_email: "",
+            cliente_telefono: "",
             dispositivo: "",
             descripcion_problema: "",
-            servicio_seleccionado: "Diagnóstico",
+            servicio_seleccionado: "",
             estado: "Recibido",
             fecha_estimada: "",
             notas_tecnicas: "",
-            precio_estimado: "",
+            precio_estimado: 0,
         });
-        setEditando(null);
-        setMostrarFormulario(false);
+        setEditingServicio(null);
+        setShowForm(false);
     };
 
-    const getEstadoColor = (estado: string) => {
-        const colores: { [key: string]: string } = {
-            "Recibido": "bg-blue-100 text-blue-800",
-            "En diagnóstico": "bg-yellow-100 text-yellow-800",
-            "Diagnóstico completado": "bg-purple-100 text-purple-800",
-            "En reparación": "bg-orange-100 text-orange-800",
-            "En espera de repuestos": "bg-red-100 text-red-800",
-            "Reparación completada": "bg-green-100 text-green-800",
-            "Listo para entrega": "bg-teal-100 text-teal-800",
-            "Entregado": "bg-gray-100 text-gray-800",
-        };
-        return colores[estado] || "bg-gray-100 text-gray-800";
-    };
+    if (isChecking) {
+        return (
+            <div className="min-h-screen bg-brand-black flex items-center justify-center">
+                <div className="text-white text-xl">Verificando acceso...</div>
+            </div>
+        );
+    }
+
+    if (!isAuthenticated) {
+        return null;
+    }
 
     return (
-        <div className="min-h-screen bg-brand-cream p-4 md:p-8">
-            {/* Indicador de Conexión */}
-            <div className="fixed top-4 right-4 z-50">
-                {dbConnected === null ? (
-                    <div className="bg-yellow-500 text-white px-4 py-2 rounded-lg shadow-lg flex items-center gap-2">
-                        <div className="animate-spin h-4 w-4 border-2 border-white border-t-transparent rounded-full"></div>
-                        <span className="font-medium">Conectando...</span>
-                    </div>
-                ) : dbConnected ? (
-                    <div className="bg-green-500 text-white px-4 py-2 rounded-lg shadow-lg flex items-center gap-2">
-                        <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                            <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                        </svg>
-                        <span className="font-medium">Base de datos conectada</span>
-                    </div>
-                ) : (
-                    <div className="bg-red-500 text-white px-4 py-2 rounded-lg shadow-lg flex items-center gap-2">
-                        <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                            <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
-                        </svg>
-                        <span className="font-medium">Error de conexión</span>
-                    </div>
-                )}
-            </div>
-
+        <div className="min-h-screen bg-brand-cream p-8">
             <div className="max-w-7xl mx-auto">
-                {/* Header */}
-                <div className="bg-gradient-to-r from-brand-blue to-brand-green p-6 rounded-2xl mb-8 text-white flex justify-between items-center">
-                    <div>
-                        <h1 className="text-3xl font-bold mb-2">Panel de Administración - LapTech</h1>
-                        <p className="text-white/90">Gestión de servicios y seguimiento de equipos</p>
-                    </div>
+                <div className="flex justify-between items-center mb-8">
+                    <h1 className="text-4xl font-bold text-brand-black">
+                        Panel de Administración - LapTech
+                    </h1>
                     <div className="flex gap-4">
+                        <button
+                            onClick={() => setShowForm(!showForm)}
+                            className="px-6 py-3 bg-brand-blue text-white rounded-xl font-semibold hover:bg-brand-green transition-all"
+                        >
+                            {showForm ? "Ver Lista" : "+ Nuevo Servicio"}
+                        </button>
                         <button
                             onClick={handleLogout}
                             className="px-6 py-3 bg-red-500 text-white rounded-xl font-semibold hover:bg-red-600 transition-all"
@@ -233,248 +210,247 @@ export default function AdminPanel() {
                             Cerrar Sesión
                         </button>
                     </div>
-
                 </div>
 
-
-                {/* Botón Nuevo Servicio */}
-
-                <div className="flex justify-between items-center mb-8">
-
-
-                </div>
-                <div className="mb-6">
-                    <button
-                        onClick={() => setMostrarFormulario(!mostrarFormulario)}
-                        className="px-6 py-3 bg-brand-blue text-white rounded-xl font-semibold hover:bg-brand-green transition-colors"
-                    >
-                        {mostrarFormulario ? "Cancelar" : "+ Nuevo Servicio"}
-                    </button>
-                </div>
-
-                {/* Formulario */}
-                {mostrarFormulario && (
-                    <div className="bg-white rounded-2xl p-6 mb-8 shadow-lg">
+                {showForm ? (
+                    <div className="bg-white rounded-3xl p-8 shadow-xl">
                         <h2 className="text-2xl font-bold text-brand-black mb-6">
-                            {editando ? "Editar Servicio" : "Nuevo Servicio"}
+                            {editingServicio ? "Editar Servicio" : "Crear Nuevo Servicio"}
                         </h2>
-                        <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <form onSubmit={handleSubmit} className="space-y-6">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <label className="block text-sm font-medium text-brand-black mb-2">
+                                        Nombre del Cliente
+                                    </label>
+                                    <input
+                                        type="text"
+                                        value={formData.cliente_nombre}
+                                        onChange={(e) =>
+                                            setFormData({ ...formData, cliente_nombre: e.target.value })
+                                        }
+                                        className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:outline-none focus:border-brand-blue"
+                                        required
+                                    />
+                                </div>
+                                <div>
+                                    <label className="block text-sm font-medium text-brand-black mb-2">
+                                        Email
+                                    </label>
+                                    <input
+                                        type="email"
+                                        value={formData.cliente_email}
+                                        onChange={(e) =>
+                                            setFormData({ ...formData, cliente_email: e.target.value })
+                                        }
+                                        className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:outline-none focus:border-brand-blue"
+                                    />
+                                </div>
+                                <div>
+                                    <label className="block text-sm font-medium text-brand-black mb-2">
+                                        Teléfono
+                                    </label>
+                                    <input
+                                        type="tel"
+                                        value={formData.cliente_telefono}
+                                        onChange={(e) =>
+                                            setFormData({ ...formData, cliente_telefono: e.target.value })
+                                        }
+                                        className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:outline-none focus:border-brand-blue"
+                                        required
+                                    />
+                                </div>
+                                <div>
+                                    <label className="block text-sm font-medium text-brand-black mb-2">
+                                        Dispositivo
+                                    </label>
+                                    <input
+                                        type="text"
+                                        value={formData.dispositivo}
+                                        onChange={(e) =>
+                                            setFormData({ ...formData, dispositivo: e.target.value })
+                                        }
+                                        className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:outline-none focus:border-brand-blue"
+                                        required
+                                    />
+                                </div>
+                                <div>
+                                    <label className="block text-sm font-medium text-brand-black mb-2">
+                                        Servicio
+                                    </label>
+                                    <select
+                                        value={formData.servicio_seleccionado}
+                                        onChange={(e) =>
+                                            setFormData({
+                                                ...formData,
+                                                servicio_seleccionado: e.target.value,
+                                            })
+                                        }
+                                        className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:outline-none focus:border-brand-blue"
+                                        required
+                                    >
+                                        <option value="">Selecciona un servicio</option>
+                                        <option value="Diagnóstico">Diagnóstico</option>
+                                        <option value="Restauración">Restauración</option>
+                                        <option value="Repotenciación">Repotenciación</option>
+                                        <option value="Remanufacturación">Remanufacturación</option>
+                                        <option value="Mantenimiento">Mantenimiento</option>
+                                        <option value="Recuperación de Datos">
+                                            Recuperación de Datos
+                                        </option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label className="block text-sm font-medium text-brand-black mb-2">
+                                        Estado
+                                    </label>
+                                    <select
+                                        value={formData.estado}
+                                        onChange={(e) =>
+                                            setFormData({ ...formData, estado: e.target.value })
+                                        }
+                                        className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:outline-none focus:border-brand-blue"
+                                        required
+                                    >
+                                        <option value="Recibido">Recibido</option>
+                                        <option value="En diagnóstico">En diagnóstico</option>
+                                        <option value="Diagnóstico completado">
+                                            Diagnóstico completado
+                                        </option>
+                                        <option value="En reparación">En reparación</option>
+                                        <option value="En espera de repuestos">
+                                            En espera de repuestos
+                                        </option>
+                                        <option value="Reparación completada">
+                                            Reparación completada
+                                        </option>
+                                        <option value="Listo para entrega">Listo para entrega</option>
+                                        <option value="Entregado">Entregado</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label className="block text-sm font-medium text-brand-black mb-2">
+                                        Fecha Estimada
+                                    </label>
+                                    <input
+                                        type="date"
+                                        value={formData.fecha_estimada}
+                                        onChange={(e) =>
+                                            setFormData({ ...formData, fecha_estimada: e.target.value })
+                                        }
+                                        className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:outline-none focus:border-brand-blue"
+                                    />
+                                </div>
+                                <div>
+                                    <label className="block text-sm font-medium text-brand-black mb-2">
+                                        Precio Estimado
+                                    </label>
+                                    <input
+                                        type="number"
+                                        value={formData.precio_estimado}
+                                        onChange={(e) =>
+                                            setFormData({
+                                                ...formData,
+                                                precio_estimado: parseFloat(e.target.value),
+                                            })
+                                        }
+                                        className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:outline-none focus:border-brand-blue"
+                                    />
+                                </div>
+                            </div>
                             <div>
                                 <label className="block text-sm font-medium text-brand-black mb-2">
-                                    Nombre del Cliente *
-                                </label>
-                                <input
-                                    type="text"
-                                    required
-                                    value={formData.cliente_nombre}
-                                    onChange={(e) => setFormData({ ...formData, cliente_nombre: e.target.value })}
-                                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-brand-blue"
-                                />
-                            </div>
-
-                            <div>
-                                <label className="block text-sm font-medium text-brand-black mb-2">
-                                    Teléfono *
-                                </label>
-                                <input
-                                    type="tel"
-                                    required
-                                    value={formData.cliente_telefono}
-                                    onChange={(e) => setFormData({ ...formData, cliente_telefono: e.target.value })}
-                                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-brand-blue"
-                                />
-                            </div>
-
-                            <div>
-                                <label className="block text-sm font-medium text-brand-black mb-2">
-                                    Email
-                                </label>
-                                <input
-                                    type="email"
-                                    value={formData.cliente_email}
-                                    onChange={(e) => setFormData({ ...formData, cliente_email: e.target.value })}
-                                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-brand-blue"
-                                />
-                            </div>
-
-                            <div>
-                                <label className="block text-sm font-medium text-brand-black mb-2">
-                                    Dispositivo *
-                                </label>
-                                <input
-                                    type="text"
-                                    required
-                                    placeholder="ej: MacBook Pro 2019"
-                                    value={formData.dispositivo}
-                                    onChange={(e) => setFormData({ ...formData, dispositivo: e.target.value })}
-                                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-brand-blue"
-                                />
-                            </div>
-
-                            <div className="md:col-span-2">
-                                <label className="block text-sm font-medium text-brand-black mb-2">
-                                    Descripción del Problema *
+                                    Descripción del Problema
                                 </label>
                                 <textarea
-                                    required
-                                    rows={3}
                                     value={formData.descripcion_problema}
-                                    onChange={(e) => setFormData({ ...formData, descripcion_problema: e.target.value })}
-                                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-brand-blue"
-                                />
-                            </div>
-
-                            <div>
-                                <label className="block text-sm font-medium text-brand-black mb-2">
-                                    Servicio *
-                                </label>
-                                <select
+                                    onChange={(e) =>
+                                        setFormData({
+                                            ...formData,
+                                            descripcion_problema: e.target.value,
+                                        })
+                                    }
+                                    rows={3}
+                                    className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:outline-none focus:border-brand-blue resize-none"
                                     required
-                                    value={formData.servicio_seleccionado}
-                                    onChange={(e) => setFormData({ ...formData, servicio_seleccionado: e.target.value })}
-                                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-brand-blue"
-                                >
-                                    {serviciosDisponibles.map((servicio) => (
-                                        <option key={servicio} value={servicio}>
-                                            {servicio}
-                                        </option>
-                                    ))}
-                                </select>
+                                ></textarea>
                             </div>
-
                             <div>
-                                <label className="block text-sm font-medium text-brand-black mb-2">
-                                    Estado *
-                                </label>
-                                <select
-                                    required
-                                    value={formData.estado}
-                                    onChange={(e) => setFormData({ ...formData, estado: e.target.value })}
-                                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-brand-blue"
-                                >
-                                    {estadosDisponibles.map((estado) => (
-                                        <option key={estado} value={estado}>
-                                            {estado}
-                                        </option>
-                                    ))}
-                                </select>
-                            </div>
-
-                            <div>
-                                <label className="block text-sm font-medium text-brand-black mb-2">
-                                    Fecha Estimada de Entrega
-                                </label>
-                                <input
-                                    type="date"
-                                    value={formData.fecha_estimada}
-                                    onChange={(e) => setFormData({ ...formData, fecha_estimada: e.target.value })}
-                                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-brand-blue"
-                                />
-                            </div>
-
-                            <div>
-                                <label className="block text-sm font-medium text-brand-black mb-2">
-                                    Precio Estimado ($)
-                                </label>
-                                <input
-                                    type="number"
-                                    step="0.01"
-                                    value={formData.precio_estimado}
-                                    onChange={(e) => setFormData({ ...formData, precio_estimado: e.target.value })}
-                                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-brand-blue"
-                                />
-                            </div>
-
-                            <div className="md:col-span-2">
                                 <label className="block text-sm font-medium text-brand-black mb-2">
                                     Notas Técnicas
                                 </label>
                                 <textarea
-                                    rows={3}
                                     value={formData.notas_tecnicas}
-                                    onChange={(e) => setFormData({ ...formData, notas_tecnicas: e.target.value })}
-                                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-brand-blue"
-                                />
+                                    onChange={(e) =>
+                                        setFormData({ ...formData, notas_tecnicas: e.target.value })
+                                    }
+                                    rows={3}
+                                    className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:outline-none focus:border-brand-blue resize-none"
+                                ></textarea>
                             </div>
-
-                            <div className="md:col-span-2 flex gap-4">
+                            <div className="flex gap-4">
                                 <button
                                     type="submit"
-                                    disabled={loading}
-                                    className="px-6 py-3 bg-brand-green text-white rounded-xl font-semibold hover:bg-brand-blue transition-colors disabled:opacity-50"
+                                    className="flex-1 py-3 bg-gradient-to-r from-brand-blue to-brand-green text-white rounded-xl font-semibold hover:shadow-xl transition-all"
                                 >
-                                    {loading ? "Guardando..." : editando ? "Actualizar" : "Crear Servicio"}
+                                    {editingServicio ? "Actualizar" : "Crear Servicio"}
                                 </button>
                                 <button
                                     type="button"
                                     onClick={resetForm}
-                                    className="px-6 py-3 bg-gray-300 text-brand-black rounded-xl font-semibold hover:bg-gray-400 transition-colors"
+                                    className="px-8 py-3 bg-gray-300 text-brand-black rounded-xl font-semibold hover:bg-gray-400 transition-all"
                                 >
                                     Cancelar
                                 </button>
                             </div>
                         </form>
                     </div>
-                )}
-
-                {/* Lista de Servicios */}
-                <div className="bg-white rounded-2xl p-6 shadow-lg">
-                    <h2 className="text-2xl font-bold text-brand-black mb-6">
-                        Servicios Activos ({servicios.length})
-                    </h2>
-
-                    {loading ? (
-                        <p className="text-center text-brand-black/70">Cargando...</p>
-                    ) : servicios.length === 0 ? (
-                        <p className="text-center text-brand-black/70">No hay servicios registrados</p>
-                    ) : (
-                        <div className="overflow-x-auto">
+                ) : (
+                    <div className="bg-white rounded-3xl p-8 shadow-xl overflow-x-auto">
+                        {loading ? (
+                            <div className="text-center py-8">Cargando servicios...</div>
+                        ) : servicios.length === 0 ? (
+                            <div className="text-center py-8 text-brand-black/60">
+                                No hay servicios registrados
+                            </div>
+                        ) : (
                             <table className="w-full">
-                                <thead className="bg-gray-50">
-                                    <tr>
-                                        <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Referencia</th>
-                                        <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Cliente</th>
-                                        <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Dispositivo</th>
-                                        <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Servicio</th>
-                                        <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Estado</th>
-                                        <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Acciones</th>
+                                <thead>
+                                    <tr className="border-b-2 border-brand-blue">
+                                        <th className="text-left p-4 font-semibold">Referencia</th>
+                                        <th className="text-left p-4 font-semibold">Cliente</th>
+                                        <th className="text-left p-4 font-semibold">Dispositivo</th>
+                                        <th className="text-left p-4 font-semibold">Estado</th>
+                                        <th className="text-left p-4 font-semibold">Fecha</th>
+                                        <th className="text-left p-4 font-semibold">Acciones</th>
                                     </tr>
                                 </thead>
-                                <tbody className="divide-y divide-gray-200">
+                                <tbody>
                                     {servicios.map((servicio) => (
-                                        <tr key={servicio.id} className="hover:bg-gray-50">
-                                            <td className="px-4 py-4 whitespace-nowrap">
-                                                <span className="font-mono font-bold text-brand-blue">
-                                                    {servicio.referencia}
-                                                </span>
+                                        <tr key={servicio.id} className="border-b border-gray-200">
+                                            <td className="p-4 font-mono text-brand-blue">
+                                                {servicio.referencia}
                                             </td>
-                                            <td className="px-4 py-4">
-                                                <div className="text-sm font-medium text-brand-black">
-                                                    {servicio.cliente_nombre}
-                                                </div>
-                                                <div className="text-sm text-gray-500">{servicio.cliente_telefono}</div>
-                                            </td>
-                                            <td className="px-4 py-4 text-sm text-brand-black">
-                                                {servicio.dispositivo}
-                                            </td>
-                                            <td className="px-4 py-4 text-sm text-brand-black">
-                                                {servicio.servicio_seleccionado}
-                                            </td>
-                                            <td className="px-4 py-4">
-                                                <span className={`px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full ${getEstadoColor(servicio.estado)}`}>
+                                            <td className="p-4">{servicio.cliente_nombre}</td>
+                                            <td className="p-4">{servicio.dispositivo}</td>
+                                            <td className="p-4">
+                                                <span className="px-3 py-1 bg-brand-green/20 text-brand-green rounded-full text-sm">
                                                     {servicio.estado}
                                                 </span>
                                             </td>
-                                            <td className="px-4 py-4 whitespace-nowrap text-sm">
+                                            <td className="p-4">
+                                                {new Date(servicio.fecha_ingreso).toLocaleDateString()}
+                                            </td>
+                                            <td className="p-4 flex gap-2">
                                                 <button
-                                                    onClick={() => editarServicio(servicio)}
-                                                    className="text-brand-blue hover:text-brand-green mr-3 font-medium"
+                                                    onClick={() => handleEdit(servicio)}
+                                                    className="px-4 py-2 bg-brand-blue text-white rounded-lg hover:bg-brand-blue/80"
                                                 >
                                                     Editar
                                                 </button>
                                                 <button
-                                                    onClick={() => eliminarServicio(servicio.id)}
-                                                    className="text-red-600 hover:text-red-800 font-medium"
+                                                    onClick={() => handleDelete(servicio.id)}
+                                                    className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600"
                                                 >
                                                     Eliminar
                                                 </button>
@@ -483,9 +459,9 @@ export default function AdminPanel() {
                                     ))}
                                 </tbody>
                             </table>
-                        </div>
-                    )}
-                </div>
+                        )}
+                    </div>
+                )}
             </div>
         </div>
     );

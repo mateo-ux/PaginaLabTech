@@ -30,8 +30,10 @@ export function ContactSection() {
         try {
             // Configuración de EmailJS - REEMPLAZA ESTOS VALORES
             const result = await emailjs.send(
-                'service_a5li6xt',      // ← Reemplaza con tu Service ID
-                'template_oyfrkq6',     // ← Reemplaza con tu Template ID
+                'service_8ict6dd',     // ← Reemplaza con tu Service ID
+                //'service_a5li6xt',   // ← Reemplaza con tu Service ID
+                'template_ftgtnkm',   // ← Reemplaza con tu Template ID
+                //'template_oyfrkq6',     // ← Reemplaza con tu Template ID
                 {
                     from_name: formData.name,
                     reply_to: formData.email,
@@ -39,7 +41,8 @@ export function ContactSection() {
                     device: formData.device,
                     message: formData.message,
                 },
-                'Vbc48W__CAE97Cscu'       // ← Reemplaza con tu Public Key
+                'HRVPxCfoQY47nqH5g'
+                //'Vbc48W__CAE97Cscu'       // ← Reemplaza con tu Public Key
             );
 
             if (result.text === 'OK') {
