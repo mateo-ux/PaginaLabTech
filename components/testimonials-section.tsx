@@ -4,7 +4,7 @@ import { InfiniteMovingCards } from "@/components/ui/infinite-moving-cards";
 
 const testimonials = [
     {
-        quote: "Mi MacBook Pro 2015 estaba lentísima y pensé que era hora de cambiarla. LapTech la repotenciaron con un SSD y más RAM, ahora funciona como nueva. Ahorré más de $3 millones y además ayudé al planeta. ¡Increíble servicio!",
+        quote: "Mi MacBook Pro 2024 estaba lentísima y pensé que era hora de cambiarla. LapTech la repotenciaron con un SSD y más RAM, ahora funciona como nueva. Ahorré más de $3 millones y además ayudé al planeta. ¡Increíble servicio!",
         name: "María González",
         title: "Diseñadora Gráfica",
     },
@@ -19,12 +19,12 @@ const testimonials = [
         title: "Fotógrafa",
     },
     {
-        quote: "Como empresa comprometida con la sostenibilidad, encontrar LapTech fue perfecto. Han restaurado más de 15 equipos para nuestra oficina, ahorrando costos y reduciendo nuestra huella de carbono. Servicio corporativo excelente.",
+        quote: "Como empresa comprometida con la sostenibilidad, encontrar LapTech fue perfecto. Han restaurado más de 10 equipos para nuestra oficina, ahorrando costos y reduciendo nuestra huella de carbono. Servicio corporativo excelente.",
         name: "Roberto Méndez",
-        title: "Gerente de TI - StartupCO",
+        title: "Diseñador de TI - StartupCO",
     },
     {
-        quote: "Mi Mac Mini 2014 estaba obsoleto para edición de video. Después de la repotenciación con SSD NVMe, ahora edito 4K sin problemas. Es como tener un equipo nuevo por una fracción del precio. Trabajo impecable.",
+        quote: "Mi Mac Mini 2019 estaba obsoleto para edición de video. Después de la repotenciación con SSD NVMe, ahora edito 4K sin problemas. Es como tener un equipo nuevo por una fracción del precio. Trabajo impecable.",
         name: "Juan Pablo Torres",
         title: "Editor de Video",
     },
