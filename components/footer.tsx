@@ -106,8 +106,7 @@ export function Footer() {
                 <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center">
                     <p className="text-white/60 text-sm mb-4 md:mb-0">© {currentYear} LapTech. Todos los derechos reservados.</p>
                     <div className="flex space-x-6 text-sm">
-                        <a href="#" className="text-white/60 hover:text-brand-green transition-colors">Política de Privacidad</a>
-                        <a href="#" className="text-white/60 hover:text-brand-green transition-colors">Términos y Condiciones</a>
+                        <a href="/politica-privacidad" className="text-white/60 hover:text-brand-green transition-colors">Política de Privacidad</a>
                     </div>
                 </div>
             </div>
