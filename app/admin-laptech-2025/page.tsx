@@ -295,9 +295,6 @@ export default function AdminPage() {
                                         <option value="Repotenciación">Repotenciación</option>
                                         <option value="Remanufacturación">Remanufacturación</option>
                                         <option value="Mantenimiento">Mantenimiento</option>
-                                        <option value="Recuperación de Datos">
-                                            Recuperación de Datos
-                                        </option>
                                     </select>
                                 </div>
                                 <div>
