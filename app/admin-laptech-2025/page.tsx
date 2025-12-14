@@ -117,11 +117,18 @@ export default function AdminPage() {
                 cargarServicios();
             }
         } else {
+            // Generar fecha actual en formato local (Colombia)
+            const ahora = new Date();
+            const year = ahora.getFullYear();
+            const month = String(ahora.getMonth() + 1).padStart(2, '0');
+            const day = String(ahora.getDate()).padStart(2, '0');
+            const fechaLocal = `${year}-${month}-${day}`;
+
             const { error } = await supabase.from("servicios").insert([
                 {
                     ...formData,
                     referencia: generarReferencia(),
-                    fecha_ingreso: new Date().toISOString().split("T")[0],
+                    fecha_ingreso: fechaLocal,
                 },
             ]);
 
@@ -175,6 +182,21 @@ export default function AdminPage() {
         });
         setEditingServicio(null);
         setShowForm(false);
+    };
+
+    // Función para formatear fecha correctamente
+    const formatearFecha = (fecha: string) => {
+        if (!fecha) return "No especificada";
+        const partes = fecha.split('T')[0].split('-');
+        const año = parseInt(partes[0]);
+        const mes = parseInt(partes[1]) - 1;
+        const dia = parseInt(partes[2]);
+        const fechaLocal = new Date(año, mes, dia);
+        return fechaLocal.toLocaleDateString("es-CO", {
+            year: "numeric",
+            month: "long",
+            day: "numeric"
+        });
     };
 
     if (isChecking) {
@@ -436,7 +458,7 @@ export default function AdminPage() {
                                                 </span>
                                             </td>
                                             <td className="p-4">
-                                                {new Date(servicio.fecha_ingreso).toLocaleDateString()}
+                                                {formatearFecha(servicio.fecha_ingreso)}
                                             </td>
                                             <td className="p-4 flex gap-2">
                                                 <button

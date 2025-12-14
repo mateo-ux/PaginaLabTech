@@ -59,22 +59,7 @@ export function ClientTrackingSection() {
 
     const formatearFecha = (fecha: string) => {
         if (!fecha) return "No especificada";
-
-        // Parsear la fecha como UTC y obtener solo la parte de la fecha (YYYY-MM-DD)
-        const fechaUTC = new Date(fecha);
-        const year = fechaUTC.getUTCFullYear();
-        const month = fechaUTC.getUTCMonth();
-        const day = fechaUTC.getUTCDate();
-
-        // Crear una nueva fecha usando los componentes UTC pero en hora local
-        const fechaLocal = new Date(year, month, day);
-
-        return fechaLocal.toLocaleDateString("es-CO", {
-            year: "numeric",
-            month: "long",
-            day: "numeric",
-            timeZone: "America/Bogota"
-        });
+        return new Date(fecha).toLocaleDateString("es-CO", { year: "numeric", month: "long", day: "numeric" });
     };
 
     const getProgreso = (estado: string) => {
